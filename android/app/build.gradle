@@ -1,0 +1,96 @@
+plugins {
+    id "com.android.application"
+    id "kotlin-android"
+    id "dev.flutter.flutter-gradle-plugin"
+   // id 'com.google.gms.google-services' // Add the Google services Gradle plugin
+}
+
+def localProperties = new Properties()
+def localPropertiesFile = rootProject.file('local.properties')
+if (localPropertiesFile.exists()) {
+    localPropertiesFile.withReader('UTF-8') { reader ->
+        localProperties.load(reader)
+    }
+}
+
+def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
+if (flutterVersionCode == null) {
+    flutterVersionCode = '1'
+}
+
+def flutterVersionName = localProperties.getProperty('flutter.versionName')
+if (flutterVersionName == null) {
+    flutterVersionName = '1.0'
+}
+
+android {
+    namespace "com.example.sleepwell"
+    compileSdk flutter.compileSdkVersion
+    ndkVersion flutter.ndkVersion
+    defaultConfig {
+        multiDexEnabled true
+    }
+
+    compileOptions {
+        coreLibraryDesugaringEnabled true
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
+
+    defaultConfig {
+        applicationId "com.example.sleepwell"
+        // You can update the following values to match your application needs.
+        // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
+        minSdkVersion flutter.minSdkVersion
+        targetSdkVersion flutter.targetSdkVersion
+        versionCode flutterVersionCode.toInteger()
+        versionName flutterVersionName
+
+        // minSdkVersion 21
+        // targetSdkVersion 33
+        // versionCode 1
+        // versionName "1.0"
+
+       multiDexEnabled true // Add this line if you need multidex support
+       testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            // TODO: Add your own signing config for the release build.
+            // Signing with the debug keys for now, so `flutter run --release` works.
+            signingConfig signingConfigs.debug
+        }
+    }
+}
+
+flutter {
+    source '../..'
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    // implementation 'androidx.core:core-ktx:1.8.0'
+    // implementation 'androidx.appcompat:appcompat:1.4.2'
+    // implementation 'com.google.android.material:material:1.6.1'
+    // implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    // implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.4.1'
+    // implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1'
+    // implementation 'com.google.firebase:firebase-analytics-ktx:20.1.0'
+    // implementation 'com.google.firebase:firebase-messaging:23.0.0'
+    implementation 'androidx.multidex:multidex:2.0.1'
+    // implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3"
+    // implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3"
+    // Add other dependencies as needed
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.2.2'
+}
+
+//apply plugin: 'com.google.gms.google-services' // Move this line to the end of the file
